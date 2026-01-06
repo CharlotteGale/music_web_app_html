@@ -18,9 +18,12 @@ CREATE TABLE artists (
     genre VARCHAR(255)
 );
 
-INSERT INTO albums (title, release_year, artist_id) VALUES ('Waterloo', 1972, 2);
+INSERT INTO artists (name, genre) VALUES ('Rammstein', 'Heavy Metal');
+INSERT INTO artists (name, genre) VALUES ('System of a Down', 'Alt Metal');
+INSERT INTO artists (name, genre) VALUES ('Fleetwood Mac', 'Pop Rock');
 
-INSERT INTO artists (name, genre) VALUES ('Pixies', 'Rock');
-INSERT INTO artists (name, genre) VALUES ('ABBA', 'Pop');
-INSERT INTO artists (name, genre) VALUES ('Taylor Swift', 'Pop');
-INSERT INTO artists (name, genre) VALUES ('Nina Simone', 'Jazz');
+INSERT INTO albums (title, release_year, artist_id) VALUES ('Du Hast', 1997, 1);
+INSERT INTO albums (title, release_year, artist_id) VALUES ('Sonne', 2001, 1);
+INSERT INTO albums (title, release_year, artist_id) VALUES ('B.Y.O.B', 2005, 2);
+INSERT INTO albums (title, release_year, artist_id) VALUES ('The Chain', 1977, 3);
+INSERT INTO albums (title, release_year, artist_id) VALUES ('Toxicity', 2001, 2);
