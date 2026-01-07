@@ -20,3 +20,16 @@ class AlbumRepository:
             'VALUES (%s, %s, %s);',
             [album.title, album.release_year, album.artist_id]
         )
+
+    def find_by_album_id_with_artist(self, album_id):
+        rows = self._connection.execute(
+            'SELECT albums.id, albums.title, albums.release_year, albums.artist_id, artists.name AS artist_name ' \
+            'FROM albums ' \
+            'JOIN artists ON albums.artist_id = artists.id ' \
+            'WHERE albums.id = %s;',
+            [album_id]
+        )
+
+        row = rows[0]
+        
+        return Album(row['id'], row['title'], row['release_year'], row['artist_id'], row['artist_name'])

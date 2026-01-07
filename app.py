@@ -14,5 +14,13 @@ def get_albums():
     albums = repo.all()
     return render_template("albums/index.html", albums=albums)
 
+@app.route("/albums/<id>")
+def get_album_by_id(id):
+    connection = get_flask_database_connection(app)
+    repo = AlbumRepository(connection)
+
+    album = repo.find_by_album_id_with_artist(id)
+    return render_template("albums/album_id.html", album=album)
+
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
