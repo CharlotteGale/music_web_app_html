@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Albums</title>
+        <title>Artists Home</title>
         <meta charset="utf-8">
     </head>
     <body>
-        <h1>Choose an Album</h1>
-        
+        <h1>Artists</h1>
         <div>
-        {% for album in albums %}
+        {% for artist in artists %}
             <p>
-                <a href="/albums/{{album.id}}">
-                {{ album.title }}
+                <a href="/artists/{{artist.id}}">
+                    {{ artist.name }}
                 </a>
             </p>
         {% endfor %}
