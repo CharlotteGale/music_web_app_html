@@ -4,6 +4,7 @@ from lib.database_connection import get_flask_database_connection
 from lib.repositories.album_repository import AlbumRepository
 from lib.models.album import Album
 from lib.repositories.artist_repository import ArtistRepository
+from lib.models.artist import Artist
 
 
 app = Flask(__name__)
@@ -30,7 +31,7 @@ def get_new_album():
     return render_template('albums/new.html')
 
 @app.route("/albums", methods=['POST'])
-def create_book():
+def create_album():
     connection = get_flask_database_connection(app)
     repo = AlbumRepository(connection)
 
@@ -59,9 +60,25 @@ def get_artist_by_id(id):
     repo = ArtistRepository(connection)
 
     artist = repo.find_by_artist_id(id)
-    return render_template("artists/artist_id.html", artist=artist)
+    return render_template("artists/show.html", artist=artist)
 
+@app.route("/artists/new")
+def get_new_artist():
+    return render_template('artists/new.html')
 
+@app.route("/artists", methods=['POST'])
+def create_artist():
+    connection = get_flask_database_connection(app)
+    repo = ArtistRepository(connection)
+
+    name = request.form['name']
+    genre = request.form['genre']
+
+    artist = Artist(None, name, genre)
+
+    artist = repo.create(artist)
+
+    return redirect(f"/artists/{artist.id}")
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))

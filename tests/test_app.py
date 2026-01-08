@@ -38,6 +38,7 @@ def test_create_album(page, test_web_address, db_connection):
 
     page.fill("input[name='title']", "Fleetwood Mac")
     page.fill("input[name='release_year']", "1975")
+    page.fill("input[name='artist_id']", "3")
 
     page.click("text=Create Album")
 
@@ -45,7 +46,7 @@ def test_create_album(page, test_web_address, db_connection):
     release_year_element = page.locator(".release_year")
 
     expect(h1_tag).to_have_text("Fleetwood Mac")
-    expect(release_year_element).to_have_text("1975")
+    expect(release_year_element).to_have_text("Release year: 1975")
     
 
 
@@ -74,4 +75,22 @@ def test_artist_id_page(page,test_web_address, db_connection):
     div_tag = page.locator("div")
 
     expect(div_tag).to_have_text("Artist: Rammstein\nGenre: Heavy Metal")
+
+def test_create_artist(page, test_web_address, db_connection):
+    db_connection.seed("seeds/web_music_app_html.sql")
+    page.goto(f"http://{test_web_address}/artists")
+
+    page.click("text=Add New Artist")
+
+    page.fill("input[name='name']", "Skunk Anansie")
+    page.fill("input[name='genre']", "Rock")
+
+    page.click("text=Create Artist")
+
+    artist_name_element = page.locator(".artist_name")
+    genre_element = page.locator(".genre")
+
+    expect(artist_name_element).to_have_text("Artist: Skunk Anansie")
+    expect(genre_element).to_have_text("Genre: Rock")
+    
     
