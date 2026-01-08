@@ -101,4 +101,59 @@ Add a route `GET /artists` which returns an HTML page with the list of artists. 
 </html>
 ```
 
-            
+Test-drive and implement a form page to add a new album.
+
+You should then be able to use the form in your web browser to add a new album, and see this new album in the albums list page.
+
+```html
+<!-- GET /albums 'home page' -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Albums Home</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>Choose an Album</h1>
+
+        <div>
+            <p><a href="/albums/1">Mutter</a></p>
+            <p><a href="/albums/2">Rammstein</a></p>
+            <p><a href="/albums/3">Hypnotize</a></p>
+            <p><a href="/albums/5">Rumors</a></p>
+            <p><a href="/albums/4">Toxicity</a></p>
+        </div>
+        <div>
+            <p><a href="/albums/new">Add New Album</a></p>
+        </div>
+    </body>
+</html>
+```
+
+```html
+<!-- GET /albums/new 'home page' -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Albums Home</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>Add an Album</h1>
+
+        <div>
+            <p>
+                <label for="title">Title: </label>
+                <input type="text" name="title" id="title">
+            </p>
+            <p>
+                <label for="release_year">Release Year: </label>
+                <input type="number" name="release_year" id="release_year">
+            </p>
+            <p>
+                <input type="submit" value="Add Album">
+            </p>
+        </div>
+    </body>
+</html>
+```

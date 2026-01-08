@@ -1,7 +1,8 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from lib.database_connection import get_flask_database_connection
 from lib.repositories.album_repository import AlbumRepository
+from lib.models.album import Album
 from lib.repositories.artist_repository import ArtistRepository
 
 
@@ -21,7 +22,27 @@ def get_album_by_id_with_artist(id):
     repo = AlbumRepository(connection)
 
     album = repo.find_by_album_id_with_artist(id)
-    return render_template("albums/album_id.html", album=album)
+    print(album)
+    return render_template("albums/show.html", album=album)
+
+@app.route("/albums/new")
+def get_new_album():
+    return render_template('albums/new.html')
+
+@app.route("/albums", methods=['POST'])
+def create_book():
+    connection = get_flask_database_connection(app)
+    repo = AlbumRepository(connection)
+
+    title = request.form['title']
+    release_year = request.form['release_year']
+    artist_id = request.form['artist_id']
+
+    album = Album(None, title, release_year, artist_id)
+
+    album = repo.create(album)
+
+    return redirect(f"/albums/{album.id}")
 
 @app.route("/artists")
 def get_artists():
@@ -39,6 +60,8 @@ def get_artist_by_id(id):
 
     artist = repo.find_by_artist_id(id)
     return render_template("artists/artist_id.html", artist=artist)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))

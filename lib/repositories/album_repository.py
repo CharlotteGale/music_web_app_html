@@ -14,13 +14,17 @@ class AlbumRepository:
             for row in rows
         ]
     
-    def create(self, album):
-        self._connection.execute(
-            'INSERT INTO albums (title, release_year, artist_id) ' \
-            'VALUES (%s, %s, %s);',
-            [album.title, album.release_year, album.artist_id]
+    def find_by_album_id(self, album_id):
+        rows = self._connection.execute(
+            'SELECT * FROM albums ' \
+            'WHERE id = %s;',
+            [album_id]
         )
 
+        row = rows[0]
+
+        return Album(row['id'], row['title'], row['release_year'], row['artist_id'])
+    
     def find_by_album_id_with_artist(self, album_id):
         rows = self._connection.execute(
             'SELECT albums.id, albums.title, albums.release_year, albums.artist_id, artists.name AS artist_name ' \
@@ -33,3 +37,14 @@ class AlbumRepository:
         row = rows[0]
         
         return Album(row['id'], row['title'], row['release_year'], row['artist_id'], row['artist_name'])
+    
+    def create(self, album):
+        rows = self._connection.execute(
+            'INSERT INTO albums (title, release_year, artist_id) ' \
+            'VALUES (%s, %s, %s) ' \
+            'RETURNING id;',
+            [album.title, album.release_year, album.artist_id]
+        )
+        row = rows[0]
+        album.id = row['id']
+        return album
